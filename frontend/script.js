@@ -2,14 +2,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// TODO: Replace with your Firebase project config
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
+  authDomain: "meetingmapper-20b45.firebaseapp.com",
+  projectId: "meetingmapper-20b45",
+  storageBucket: "meetingmapper-20b45.appspot.com",
+  messagingSenderId: "836447630101",
+  appId: "1:836447630101:web:751a875e40fdfd5b2eaf1c",
+  measurementId: "G-0JD3YVQRQK"
 };
 
 const app = initializeApp(firebaseConfig);
