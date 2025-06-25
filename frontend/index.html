@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetingMapper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MeetingMapper</h1>
+        <p>Paste or upload your meeting transcript to extract action items.</p>
+        <textarea id="transcriptInput" placeholder="Paste transcript here..."></textarea>
+        <div class="actions">
+            <input type="file" id="fileInput" accept=".txt">
+            <button id="extractBtn">Extract Action Items</button>
+        </div>
+        <div id="results" class="hidden">
+            <h2>Action Items</h2>
+            <ul id="actionItems"></ul>
+            <h3>Summary</h3>
+            <p id="summary"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
