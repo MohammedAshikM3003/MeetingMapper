@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MeetingMapper</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
+    <p align="center">
+      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/assets/banner.png" alt="Project Banner" width="100%">
+    </p>
     <div class="container">
         <h1>MeetingMapper</h1>
         <p>Paste or upload your meeting transcript to extract action items.</p>
@@ -22,6 +27,22 @@
             <p id="summary"></p>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
+            authDomain: "meetingmapper-20b45.firebaseapp.com",
+            projectId: "meetingmapper-20b45",
+            appId: "1:836447630101:web:751a875e40fdfd5b2eaf1c"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (!user) {
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
