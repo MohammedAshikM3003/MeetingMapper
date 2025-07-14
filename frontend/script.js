@@ -1,8 +1,7 @@
-// Firebase App (the core Firebase SDK) is always required and must be listed first
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Your web app's Firebase configuration
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
   authDomain: "meetingmapper-20b45.firebaseapp.com",
@@ -13,71 +12,95 @@ const firebaseConfig = {
   measurementId: "G-0JD3YVQRQK"
 };
 
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase safely
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
+// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
-    const transcriptInput = document.getElementById('transcriptInput');
-    const fileInput = document.getElementById('fileInput');
-    const extractBtn = document.getElementById('extractBtn');
-    const resultsDiv = document.getElementById('results');
-    const actionItemsList = document.getElementById('actionItems');
-    const summaryP = document.getElementById('summary');
+  const transcriptInput = document.getElementById('transcriptInput');
+  const fileInput = document.getElementById('fileInput');
+  const extractBtn = document.getElementById('extractBtn');
+  const resultsDiv = document.getElementById('results');
+  const actionItemsList = document.getElementById('actionItems');
+  const summaryP = document.getElementById('summary');
 
-    // Handle file upload
-    fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                transcriptInput.value = evt.target.result;
-            };
-            reader.readAsText(file);
-        }
-    });
+  if (!transcriptInput || !fileInput || !extractBtn || !resultsDiv || !actionItemsList || !summaryP) {
+    console.error("Missing required DOM elements.");
+    return;
+  }
 
-    // Handle extract button click
-    extractBtn.addEventListener('click', async () => {
-        const transcript = transcriptInput.value.trim();
-        if (!transcript) {
-            alert('Please paste or upload a transcript.');
-            return;
-        }
-        extractBtn.disabled = true;
-        extractBtn.textContent = 'Extracting...';
-        try {
-            const response = await fetch('http://localhost:3000/extract-tasks', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ transcript })
-            });
-            const data = await response.json();
-            if (data.actionItems && data.actionItems.length > 0) {
-                // Save to Firestore
-                await addDoc(collection(db, "meeting_action_items"), {
-                    transcript,
-                    actionItems: data.actionItems,
-                    summary: data.summary,
-                    created: new Date().toISOString()
-                });
-                actionItemsList.innerHTML = '';
-                data.actionItems.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = `${item.owner}: ${item.task} (by ${item.deadline}) - ${item.context}`;
-                    actionItemsList.appendChild(li);
-                });
-                summaryP.textContent = data.summary || '';
-                resultsDiv.classList.remove('hidden');
-            } else {
-                actionItemsList.innerHTML = '';
-                summaryP.textContent = 'No action items found.';
-                resultsDiv.classList.remove('hidden');
-            }
-        } catch (err) {
-            alert('Error extracting action items. Is the backend running?');
-        } finally {
-            extractBtn.disabled = false;
-            extractBtn.textContent = 'Extract Action Items';
-        }
-    });
+  // Load file content
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      transcriptInput.value = evt.target.result;
+      console.log("✅ File loaded into transcript input.");
+    };
+    reader.onerror = () => {
+      console.error("❌ Failed to read file.");
+      alert("Error reading file.");
+    };
+    reader.readAsText(file);
+  });
+
+  // Live Extract Button (calls Python backend)
+  extractBtn.addEventListener('click', async () => {
+    const transcript = transcriptInput.value.trim();
+    if (!transcript) {
+      alert("Please paste or upload a transcript.");
+      return;
+    }
+
+    extractBtn.disabled = true;
+    extractBtn.textContent = "Extracting...";
+
+    try {
+      const response = await fetch('http://127.0.0.1:3000/extract-tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server returned error ${response.status}: ${errorText}`);
+      }
+
+      const data = await response.json();
+
+      actionItemsList.innerHTML = '';
+      resultsDiv.classList.remove('hidden');
+
+      if (data.actionItems && data.actionItems.length > 0) {
+        data.actionItems.forEach(item => {
+          const li = document.createElement('li');
+          const deadlineText = item.deadline && item.deadline !== "N/A" ? ` (by ${item.deadline})` : '';
+          li.textContent = `${item.owner}: ${item.task}${deadlineText} – ${item.context}`;
+          actionItemsList.appendChild(li);
+        });
+        summaryP.textContent = data.summary || "No summary returned.";
+      } else {
+        summaryP.textContent = "No action items found.";
+      }
+
+      // Save to Firestore
+      await addDoc(collection(db, "meeting_action_items"), {
+        transcript: transcript.slice(0, 10000),
+        summary: data.summary,
+        actionItems: data.actionItems,
+        created: new Date().toISOString()
+      });
+
+    } catch (err) {
+      console.error("❌ Extraction error:", err);
+      alert("Failed to extract action items:\n" + err.message);
+    } finally {
+      extractBtn.disabled = false;
+      extractBtn.textContent = "Extract Action Items";
+    }
+  });
 });

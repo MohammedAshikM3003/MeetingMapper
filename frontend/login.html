@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - MeetingMapper</title>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; }
-        .container { max-width: 350px; margin: 80px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
-        input { width: 100%; padding: 10px; margin: 10px 0; }
-        button { width: 48%; padding: 10px; margin: 10px 1%; }
-        .error { color: red; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Login - MeetingMapper</title>
+  <link rel="stylesheet" href="login.css" />
+
+  <!-- Firebase App SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
+      authDomain: "meetingmapper-20b45.firebaseapp.com",
+      projectId: "meetingmapper-20b45",
+      appId: "1:836447630101:web:751a875e40fdfd5b2eaf1c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.login = async function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const errorDiv = document.getElementById("error");
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        console.log("✅ Login success");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("❌ Login error:", error.message);
+        errorDiv.innerText = error.message;
+      }
+    };
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <div>
-            <button onclick="login()">Login</button>
-            <button onclick="window.location.href='signup.html'">Sign Up</button>
-        </div>
-        <div class="error" id="error"></div>
+  <div class="container">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <div>
+      <button onclick="login()">Login</button>
+      <button onclick="window.location.href='signup.html'">Sign Up</button>
     </div>
-    <script>
-        // Redirect to login.html if not already there (for landing page enforcement)
-        if (!location.pathname.endsWith('login.html')) {
-            location.replace('login.html');
-        }
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
-            authDomain: "meetingmapper-20b45.firebaseapp.com",
-            projectId: "meetingmapper-20b45",
-            appId: "1:836447630101:web:751a875e40fdfd5b2eaf1c"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    window.location.href = "index.html";
-                })
-                .catch(error => {
-                    document.getElementById('error').innerText = error.message;
-                });
-        }
-    </script>
+    <div class="error" id="error"></div>
+  </div>
 </body>
 </html>

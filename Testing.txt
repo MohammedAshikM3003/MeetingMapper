@@ -1,0 +1,44 @@
+[10:00 AM] John:
+Good morning, everyone. Let’s get started with our kickoff meeting for the “MeetingMapper” project. I’ll give a quick overview, and then we’ll discuss responsibilities and timelines.
+
+[10:02 AM] Sarah:
+Sounds good. Do we have any initial design requirements or brand guidelines to follow?
+
+[10:03 AM] John:
+Yes, we want a clean and modern look. The primary color scheme will be blue and white. I’ll share the brand kit after the call.
+
+[10:05 AM] Mike:
+From a frontend perspective, do we have a preferred framework or library?
+
+[10:06 AM] John:
+Use plain HTML, CSS, and JavaScript for now. We might upgrade to React later.
+
+[10:08 AM] Priya:
+What about the backend? Should I use Node.js?
+
+[10:09 AM] John:
+Yes, Node.js with Express. Firebase can be used for real-time database and hosting.
+
+[10:12 AM] Sarah:
+When do you need the wireframes?
+
+[10:13 AM] John:
+Let’s aim for wireframes by Monday. Mike can start frontend integration by mid-week.
+
+[10:15 AM] Mike:
+Once I get the wireframes, I’ll create responsive pages. Do we want a dark mode too?
+
+[10:16 AM] John:
+Not for the MVP. Let’s keep it simple first.
+
+[10:18 AM] Priya:
+I’ll set up the basic API endpoints this weekend. Authentication will be required?
+
+[10:19 AM] John:
+Yes. Firebase Auth for login/signup.
+
+[10:20 AM] Sarah:
+I’ll use Figma for the wireframes and share a link with comments enabled.
+
+[10:21 AM] John:
+Perfect. I’ll check in with each of you on progress by Thursday.

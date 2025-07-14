@@ -21,3 +21,5 @@ MeetingMapper is an AI-powered web app that converts meeting transcripts into ac
 1. Clone this repo
 2. `cd backend` → `npm install` → `node server.js`
 3. Open `frontend/index.html` in browser
+
+![Banner](https://raw.githubusercontent.com/MohammedAshikM3003/MeetingMapper/main/assets/banner.png)
