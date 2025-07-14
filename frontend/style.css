@@ -31,8 +31,31 @@ textarea {
   margin-bottom: 12px;
 }
 
-input[type="file"] {
+.actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
   margin-bottom: 16px;
+}
+
+/* Hide native file input */
+input[type="file"] {
+  display: none;
+}
+
+/* Styled label for file input */
+.file-label {
+  background-color: #0078d4;
+  color: white;
+  font-size: 15px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.file-label:hover {
+  background-color: #005a9e;
 }
 
 button {
@@ -53,4 +76,24 @@ button:hover:not(:disabled) {
 button:disabled {
   background-color: #c0c0c0;
   cursor: not-allowed;
+}
+
+#results {
+  margin-top: 24px;
+}
+
+#results.hidden {
+  display: none;
+}
+
+#actionItems {
+  list-style: disc inside;
+  padding-left: 0;
+}
+
+#actionItems li {
+  margin-bottom: 8px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  padding: 8px 12px;
 }

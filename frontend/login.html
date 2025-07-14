@@ -2,39 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - MeetingMapper</title>
   <link rel="stylesheet" href="login.css" />
-
-  <!-- Firebase App SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
-      authDomain: "meetingmapper-20b45.firebaseapp.com",
-      projectId: "meetingmapper-20b45",
-      appId: "1:836447630101:web:751a875e40fdfd5b2eaf1c"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    window.login = async function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const errorDiv = document.getElementById("error");
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        console.log("✅ Login success");
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("❌ Login error:", error.message);
-        errorDiv.innerText = error.message;
-      }
-    };
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
   <div class="container">
@@ -47,5 +19,34 @@
     </div>
     <div class="error" id="error"></div>
   </div>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAKVyORQrwhG068ahy0vgD0wdNQxjbXOW4",
+    authDomain: "meetingmapper-20b45.firebaseapp.com",
+    projectId: "meetingmapper-20b45",
+    appId: "1:836447630101:web:751a875e40fdfd5b2eaf1c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.login = async function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const errorDiv = document.getElementById("error");
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = "home.html"; // ✅ Redirect to home.html
+    } catch (error) {
+      errorDiv.innerText = error.message;
+      console.error("❌ Login error:", error.message);
+    }
+  };
+</script>
 </body>
 </html>
