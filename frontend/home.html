@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MeetingMapper – Action Extractor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Meeting Action Extractor</h1>
+
+    <!-- Transcript Textarea -->
+    <textarea id="transcriptInput" placeholder="Paste your meeting transcript here..."></textarea>
+
+    <!-- ✅ File Upload + Extract Button -->
+    <div class="actions">
+      <label class="file-label">
+        <input type="file" id="fileInput" accept=".txt" />
+        <span class="file-button">📁 Choose File</span>
+      </label>
+      <button id="extractBtn">🧠 Extract Action Items</button>
+    </div>
+
+    <!-- Output Section -->
+    <div id="results" class="hidden">
+      <h2>📝 Summary</h2>
+      <p id="summary"></p>
+      <h2>📌 Action Items</h2>
+      <ul id="actionItems"></ul>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
