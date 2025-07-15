@@ -35,7 +35,7 @@
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(() => {
-          window.location.href = "index.html";
+          window.location.href = "home.html";
         })
         .catch(error => {
           document.getElementById('error').innerText = error.message;
